@@ -1,1 +1,2 @@
-<r-like />
+<r-like like="{{classicData.like_status}}" count="{{classicData.fav_nums}}" />
+<r-movie img="{{classicData.image}}" content="{{classicData.content}}" />
