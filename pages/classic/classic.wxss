@@ -1,0 +1,14 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20rpx 0;
+    padding: 0 20rpx;
+}
+
+.like {
+    margin-top: 10rpx;
+}
+
+.navi {
+    margin: 30rpx auto;
+}

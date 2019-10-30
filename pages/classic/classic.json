@@ -1,6 +1,8 @@
 {
 	"usingComponents": {
 		"r-like": "/components/like/index",
-        "r-movie": "/components/classic/movie/index"
+        "r-movie": "/components/classic/movie/index",
+        "r-epsoide": "/components/epsoide/index",
+        "r-navi": "/components/navi/index"
 	}
 }

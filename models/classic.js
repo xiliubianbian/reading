@@ -2,7 +2,7 @@ import {
     HTTP
 } from '../util/http.js';
 
-class classicModel extends HTTP {
+class ClassicModel extends HTTP {
     getLatest(callback) {
         this.request({
             url: 'classic/latest',
@@ -14,4 +14,4 @@ class classicModel extends HTTP {
     }
 }
 
-export {classicModel};
+export { ClassicModel};

@@ -1,2 +1,10 @@
-<r-like like="{{classicData.like_status}}" count="{{classicData.fav_nums}}" />
+<view class="header"> 
+    <r-epsoide class="epsoide" index="{{classicData.index}}" />
+    <r-like class="like" bind:like="onLike" like="{{classicData.like_status}}" count="{{classicData.fav_nums}}" />
+</view>
+
 <r-movie img="{{classicData.image}}" content="{{classicData.content}}" />
+
+<view class="navi">
+    <r-navi title="{{classicData.title}}" />
+</view>
