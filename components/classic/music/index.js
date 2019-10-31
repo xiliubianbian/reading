@@ -1,17 +1,19 @@
-import { classicBeh} from '../classic-beh.js';
+import { classicBeh } from '../classic-beh.js';
+
 Component({
-    behaviors: [classicBeh] ,
+    behaviors: [classicBeh],
     /**
      * 组件的属性列表
      */
     properties: {
+        
     },
 
     /**
      * 组件的初始数据
      */
     data: {
-
+        isPlaying: false 
     },
 
     /**

@@ -10,7 +10,9 @@ Page({
      * 页面的初始数据
      */
     data: {
-        classicData: {}
+        classicData: {},
+        first: false,
+        latest: true 
     },
 
     onLike: function(ev){
@@ -22,6 +24,14 @@ Page({
             type: data.type
         })
     },
+
+    onNext: function(){
+        console.log('next')
+    } ,
+
+    onPrevious: function(){
+        console.log('previous')
+    } ,
 
     /**
      * 生命周期函数--监听页面加载

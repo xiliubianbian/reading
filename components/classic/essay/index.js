@@ -1,10 +1,12 @@
-import { classicBeh} from '../classic-beh.js';
+import { classicBeh } from '../classic-beh.js';
+
 Component({
-    behaviors: [classicBeh] ,
+    behaviors: [classicBeh],
     /**
      * 组件的属性列表
      */
     properties: {
+
     },
 
     /**

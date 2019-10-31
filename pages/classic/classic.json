@@ -2,6 +2,7 @@
 	"usingComponents": {
 		"r-like": "/components/like/index",
         "r-movie": "/components/classic/movie/index",
+        "r-music": "/components/classic/music/index",
         "r-epsoide": "/components/epsoide/index",
         "r-navi": "/components/navi/index"
 	}
