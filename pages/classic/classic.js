@@ -10,7 +10,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-        classicData: {},
+        latestData: {} , // 最新一期的期刊信息
+        classicData: {}, // 当前期刊信息
         first: false,
         latest: true 
     },
@@ -26,11 +27,22 @@ Page({
     },
 
     onNext: function(){
-        console.log('next')
+        this._getClassicData('next') ;
     } ,
 
     onPrevious: function(){
-        console.log('previous')
+        this._getClassicData('previous');
+    } ,
+
+    _getClassicData(nextOrPrevious){
+        let index = this.data.classicData.index;
+        classicModel.getClassicData(index, nextOrPrevious , (res) => {
+            this.setData({
+                classicData: res,
+                first: res.index == 1,
+                latest: res.index == this.data.latestData.index
+            })
+        });
     } ,
 
     /**
@@ -39,7 +51,8 @@ Page({
     onLoad: function(options) {
         classicModel.getLatest( (res) => {
             this.setData({
-                classicData: res
+                classicData: res,
+                latestData: res 
             })
         });
     },
