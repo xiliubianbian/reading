@@ -13,7 +13,9 @@ Page({
         latestData: {} , // 最新一期的期刊信息
         classicData: {}, // 当前期刊信息
         first: false,
-        latest: true 
+        latest: true ,
+        likeStatus: 0,
+        likeCount: 0
     },
 
     onLike: function(ev){
@@ -37,12 +39,25 @@ Page({
     _getClassicData(nextOrPrevious){
         let index = this.data.classicData.index;
         classicModel.getClassicData(index, nextOrPrevious , (res) => {
+            this._getLikeStatus(res.id, res.type) ;
             this.setData({
                 classicData: res,
                 first: res.index == 1,
                 latest: res.index == this.data.latestData.index
             })
         });
+    } ,
+
+    _getLikeStatus(artId, category){
+        likeModel.getClassicLikeStatus(
+            artId, 
+            category, 
+            (res) => {
+                this.setData({
+                    likeStatus: res.like_status ,
+                    likeCount: res.fav_nums
+                })
+        })
     } ,
 
     /**
@@ -52,7 +67,9 @@ Page({
         classicModel.getLatest( (res) => {
             this.setData({
                 classicData: res,
-                latestData: res 
+                latestData: res ,
+                likeStatus: res.like_status ,
+                likeCount: res.fav_nums
             })
         });
     },

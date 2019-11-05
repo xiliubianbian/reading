@@ -18,8 +18,11 @@ class LikeModel extends HTTP {
         this.request({
             url: `classic/${categoay}/${artId}/favor` ,
             data: {
-                id: params.artId,
-                type: params.type
+                id: artId,
+                type: categoay
+            },
+            success: res=> {
+                callback() ;
             }
         }) 
     }
