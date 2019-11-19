@@ -1,4 +1,4 @@
-@import '../common.wxss' ;
+@import '../common.wxss';
 
 .classic-img {
     width: 422rpx;
@@ -10,5 +10,23 @@
     width: 120rpx;
     height: 120rpx;
     position: relative;
-    bottom: 270rpx;   
+    bottom: 270rpx;
+}
+
+.rotation {
+    transform: rotate(360deg);
+    animation: rotation 12s linear infinite;
+    -moz-animation: rotation 12s linear infinite;
+    -webkit-animation: rotation 12s linear infinite;
+    -o-animation: rotation 12s linear infinite;
+}
+
+@keyframes rotation {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }

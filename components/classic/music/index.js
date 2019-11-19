@@ -36,6 +36,42 @@ Component({
                 mMgr.src = this.properties.src;
                 mMgr.title = this.properties.title;
             }
+        },
+
+        _recoverStatus() {
+            if (mMgr.paused) {
+                this.setData({
+                    isPlaying: false
+                })
+                return;
+            }
+
+            if (mMgr.src == this.properties.src) {
+                this.setData({
+                    isPlaying: true
+                })
+            }
+        },
+
+        _mointerSwitch() {
+            mMgr.onPlay( () => {
+                this._recoverStatus() ;
+            });
+            mMgr.onPause(() => {
+                this._recoverStatus();
+            });
+            mMgr.onEnded(() => {
+                this._recoverStatus();
+            });
+            mMgr.onStop(() => {
+                this._recoverStatus();
+            });
         }
+    },
+
+    attached: function(){
+        this._recoverStatus();
+
+        this._mointerSwitch();
     }
 })
