@@ -9,14 +9,17 @@ const tips = {
 }
 
 class HTTP {
-    request(params) {
-        if (!params.method) {
-            params.method = 'GET';
-        }
+    request({url, data = {}, method = 'GET'}) {
+        return new Promise( (resolve, reject) => {
+            this._request(url, resolve, reject, data, method) ;
+        })
+    }
+    // 必填参数需要放在选填之前
+    _request(url, resolve, reject, data = {}, method = 'GET') {
         wx.request({
-            url: config.api_base_url + params.url,
-            method: params.method,
-            data: params.data,
+            url: config.api_base_url + url,
+            method: method,
+            data: data,
             header: {
                 'appkey': config.appkey,
                 'content-type': 'application/json'
@@ -24,12 +27,14 @@ class HTTP {
             success: res => {
                 let code = res.statusCode.toString();
                 if (code.startsWith('2')) {
-                    params.success && params.success(res.data);
+                    resolve(res.data);
                 } else {
+                    reject();
                     this._show_error(res.statusCode);
                 }
             },
             fail: err => {
+                reject();
                 this._show_error(1);
             }
         })

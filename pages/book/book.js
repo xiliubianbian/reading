@@ -1,11 +1,14 @@
-// pages/book/book.js
+import { BookModel } from '../../models/book.js';
+
+let bookModel = new BookModel();
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-
+        books: [] 
     },
 
     /**
@@ -14,17 +17,14 @@ Page({
     onLoad: function (options) {
         // new Promise接收一个函数作为参数
         // 该函数有两个参数 resolve, reject
-        const promise = new Promise((resolve,reject) => {
-            wx.getSystemInfo({
-                success: res => resolve(res),
-                fail: error => reject(error)
-            })
-        })
-
-        promise.then( 
-            res => console.log(res) ,
-            error => console.log(error)
-        )
+        bookModel.getHotList()
+            .then(
+                res => {
+                    this.setData({
+                        books: res
+                    })
+                }
+            )
     },
 
     /**
