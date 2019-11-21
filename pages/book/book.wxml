@@ -1,3 +1,17 @@
-<view class="book-item" wx:for="{{books}}">
-    <r-book book="{{item}}" />
+<!-- for循环别名 wx:for-item="el" -->
+<view class="container">
+    <view class="header">
+        <view class="search">
+            <image src="../../images/icon/search.png"></image>
+            <text>搜索书籍</text>
+        </view>
+    </view>
+    <view class="sub-container">
+        <image class="book-image" src="../../images/book/quality.png"></image>
+        <view class="book-container">
+            <block wx:for="{{books}}" wx:key="id">
+                <r-book book="{{item}}" />
+            </block>
+        </view>
+    </view>
 </view>

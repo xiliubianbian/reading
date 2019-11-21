@@ -1,4 +1,4 @@
-<view class="container">
+<view bind:tap="showDetail" class="container">
     <image src="{{book.image}}"></image>
     <view class="description">
         <text class="title">{{book.title}}</text>

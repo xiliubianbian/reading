@@ -1,0 +1,16 @@
+<view class="container">
+    <view class="header">
+        <image class="header-image" src="{{book.image}}"></image>
+        <text class="title">{{book.title}}</text>
+        <text class="author" wx:for="{{book.author}}">{{item}}</text>
+    </view>
+    <view class="sub-container">
+        <view class="header-label">短评</view>
+    </view>
+    <view class="sub-container">
+        <view class="header-label">内容简介</view>
+    </view>
+    <view class="sub-container">
+        <view class="header-label">书本信息</view>
+    </view>
+</view>
