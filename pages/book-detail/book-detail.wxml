@@ -1,16 +1,84 @@
+<wxs src="../../util/filters.wxs" module="util" />
+<wxs module="handle">
+    var getClass = function(index){
+        return index == 0 ? 'ex-tag1' : index == 1 ? 'ex-tag2' : '' ;
+    }
+    module.exports = {
+        getClass: getClass
+    }
+</wxs>
+
 <view class="container">
     <view class="header">
         <image class="header-image" src="{{book.image}}"></image>
         <text class="title">{{book.title}}</text>
-        <text class="author" wx:for="{{book.author}}">{{item}}</text>
+        <text class="author" wx:for="{{book.author}}" wx:key="index">{{item}}</text>
     </view>
     <view class="sub-container">
-        <view class="header-label">短评</view>
+        <text class="header-label">短评</text>
+        <text class="empty-text" wx:if="{{!comments.length}}">还没有短评</text>
+        <view class="comment-container">
+            <block wx:for="{{util.limit(comments, 15)}}" wx:key="content">
+                <r-tag tag-class="{{handle.getClass(index)}}" text="{{item.content}}">
+                    <text class="num" slot="after">{{"+" + item.nums}}</text>
+                </r-tag>
+            </block>
+        </view>
     </view>
     <view class="sub-container">
-        <view class="header-label">内容简介</view>
+        <text class="header-label">内容简介</text>
+        <!-- 只有text标签才能解析\n &nbsp;等 -->
+        <text class="content-simple" decode="{{true}}">{{util.format(book.summary)}}</text>
     </view>
     <view class="sub-container">
-        <view class="header-label">书本信息</view>
+        <text class="header-label">书本信息</text>
+        <view class="describe">
+            <view class="describe-item">
+                <text class="label">出版社</text>
+                <text class="content">{{book.publisher}}</text>
+            </view>
+            <view class="describe-item">
+                <text class="label">出版年</text>
+                <text class="content">{{book.pubdate}}</text>
+            </view>
+            <view class="describe-item">
+                <text class="label">页数</text>
+                <text class="content">{{book.pages}}</text>
+            </view>
+            <view class="describe-item">
+                <text class="label">定价</text>
+                <text class="content">{{book.price}}</text>
+            </view>
+            <view class="describe-item">
+                <text class="label">装帧</text>
+                <text class="content">{{book.binding}}</text>
+            </view>
+        </view>
     </view>
 </view>
+
+<view class="post-container" wx:if="{{!isShowPosting}}">
+    <view class="post-fake" bind:tap="onShowPosing">
+        <text >输入短评</text>
+    </view>
+    <view class="like-container">
+        <r-like class="like" bind:like="onLike" like="{{likeStatus}}" count="{{likeCount}}" />
+    </view>
+</view>
+
+<view class="posting-container" wx:if="{{isShowPosting}}">
+    <view class="post-header">
+        <text>{{comments.length ? "仅点击标签可+1" : "暂无短评"}}</text>
+        <text class="cancel-btn" bind:tap="onCancelPosting">取消</text>
+    </view>
+    <view class="comment-container">
+        <block wx:for="{{util.limit(comments, 3)}}" wx:key="content">
+            <r-tag bind:onTapping="onPost" tag-class="{{handle.getClass(index)}}" text="{{item.content}}">
+                <text class="num" slot="after">{{"+" + item.nums}}</text>
+            </r-tag>
+        </block>
+    </view>
+    <input class="post" placeholder="短评最多12个字" bindconfirm="onPost" />
+</view>
+
+<r-mask wx:if="{{isShowPosting}}" />

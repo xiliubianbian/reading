@@ -1,9 +1,13 @@
 // pages/book-detail/book-detail.js
 import {
     BookModel
-} from '../../models/book.js'
+} from '../../models/book.js';
+import {
+    LikeModel
+} from '../../models/like.js';
 
-const bookModel = new BookModel() ;
+const bookModel = new BookModel();
+const likeModel = new LikeModel();
 
 Page({
 
@@ -11,10 +15,59 @@ Page({
      * 页面的初始数据
      */
     data: {
-        book: {} ,
-        comments: [] ,
-        likeStatus: false ,
-        likeCount: 0
+        book: {},
+        comments: [],
+        likeStatus: false,
+        likeCount: 0,
+        isShowPosting: false
+    },
+
+    onLike: function(ev) {
+        likeModel.like({
+            behavior: ev.detail.behavior,
+            artId: this.data.book.id,
+            type: 400
+        })
+    },
+
+    onShowPosing() {
+        this.setData({
+            isShowPosting: true
+        })
+    },
+
+    onCancelPosting() {
+        this.setData({
+            isShowPosting: false
+        })
+    },
+
+    onPost(ev) {
+        const comment = ev.detail.text || ev.detail.value ;
+        if(!comment) {
+            return ;
+        }
+        if( comment.length > 12 ){
+            wx.showToast({
+                title: '短评最多输入12个字',
+                icon: 'none'
+            })
+            return;
+        }
+        bookModel.postComment(this.data.book.id, comment).then( res => {
+            wx.showToast({
+                title: '+1',
+                icon: 'none'
+            })
+            this.data.comments.unshift({
+                content: comment,
+                nums: 1
+            });
+            this.setData({
+                comments: this.data.comments,
+                isShowPosting: false 
+            })
+        })
     },
 
     /**
@@ -22,31 +75,27 @@ Page({
      */
     onLoad: function(options) {
         const bid = options.bid;
-        console.log(bid);
 
-        const detail = bookModel.getDetail(bid) ;
-        const comments = bookModel.getComments(bid) ;
-        const likeStatus = bookModel.getLikeStatus(bid) ;
+        const detail = bookModel.getDetail(bid);
+        const comments = bookModel.getComments(bid);
+        const likeStatus = bookModel.getLikeStatus(bid);
 
-        detail.then( res => {
-            console.log(res) ;
+        detail.then(res => {
             this.setData({
                 book: res
             })
         })
 
         comments.then(res => {
-            console.log(res) ;
             this.setData({
-                comments: res
+                comments: res.comments
             })
         })
 
         likeStatus.then(res => {
-            console.log(res);
             this.setData({
                 likeStatus: res.like_status == 1,
-                likeCount: res.fav_num
+                likeCount: res.fav_nums
             })
         })
     },
