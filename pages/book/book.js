@@ -8,8 +8,21 @@ Page({
      * 页面的初始数据
      */
     data: {
-        books: [] 
+        books: [] ,
+        isSearching: false 
     },
+
+    onSearching(){
+        this.setData({
+            isSearching: true
+        })
+    } ,
+
+    onCancel() {
+        this.setData({
+            isSearching: false
+        })
+    } ,
 
     /**
      * 生命周期函数--监听页面加载

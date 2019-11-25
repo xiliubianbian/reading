@@ -1,7 +1,7 @@
 <!-- for循环别名 wx:for-item="el" -->
-<view class="container">
+<view class="container" wx:if="{{!isSearching}}">
     <view class="header">
-        <view class="search">
+        <view class="search" bind:tap="onSearching">
             <image src="../../images/icon/search.png"></image>
             <text>搜索书籍</text>
         </view>
@@ -15,3 +15,5 @@
         </view>
     </view>
 </view>
+
+<r-search bind:cancel="onCancel" wx:if="{{isSearching}}" />

@@ -43,18 +43,18 @@ Page({
     },
 
     onPost(ev) {
-        const comment = ev.detail.text || ev.detail.value ;
-        if(!comment) {
-            return ;
+        const comment = ev.detail.text || ev.detail.value;
+        if (!comment) {
+            return;
         }
-        if( comment.length > 12 ){
+        if (comment.length > 12) {
             wx.showToast({
                 title: '短评最多输入12个字',
                 icon: 'none'
             })
             return;
         }
-        bookModel.postComment(this.data.book.id, comment).then( res => {
+        bookModel.postComment(this.data.book.id, comment).then(res => {
             wx.showToast({
                 title: '+1',
                 icon: 'none'
@@ -65,7 +65,7 @@ Page({
             });
             this.setData({
                 comments: this.data.comments,
-                isShowPosting: false 
+                isShowPosting: false
             })
         })
     },
@@ -74,30 +74,44 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        wx.showLoading({
+            title: '加载中'
+        });
+
         const bid = options.bid;
 
         const detail = bookModel.getDetail(bid);
         const comments = bookModel.getComments(bid);
         const likeStatus = bookModel.getLikeStatus(bid);
 
-        detail.then(res => {
+        Promise.all([detail, comments, likeStatus]).then(res => {
             this.setData({
-                book: res
+                book: res[0],
+                comments: res[1].comments,
+                likeStatus: res[2].like_status == 1,
+                likeCount: res[2].fav_nums
             })
+            wx.hideLoading();
         })
 
-        comments.then(res => {
-            this.setData({
-                comments: res.comments
-            })
-        })
+        // detail.then(res => {
+        //     this.setData({
+        //         book: res
+        //     })
+        // })
 
-        likeStatus.then(res => {
-            this.setData({
-                likeStatus: res.like_status == 1,
-                likeCount: res.fav_nums
-            })
-        })
+        // comments.then(res => {
+        //     this.setData({
+        //         comments: res.comments
+        //     })
+        // })
+
+        // likeStatus.then(res => {
+        //     this.setData({
+        //         likeStatus: res.like_status == 1,
+        //         likeCount: res.fav_nums
+        //     })
+        // })
     },
 
     /**
