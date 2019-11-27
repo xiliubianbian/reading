@@ -48,8 +48,8 @@
 }
 
 .cancel-img {
-    width: 28rpx;
-    height: 28rpx;
+    width: 38rpx;
+    height: 38rpx;
     margin-right: 20rpx;
 }
 
@@ -87,4 +87,29 @@
     background-color: #000;
     display: inline-block;
     margin-right: 20rpx;
+}
+
+.tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 20rpx;
+    margin-left: 20rpx;
+}
+
+.tags r-tag {
+    margin-right: 15rpx;
+    margin-bottom: 10rpx;
+}
+
+.book-container {
+    margin-top: 10rpx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 90rpx;
+}
+.book-container r-book {
+    margin-bottom: 10px ;
 }

@@ -1,4 +1,5 @@
 import { BookModel } from '../../models/book.js';
+import { random } from '../../util/tool.js';
 
 let bookModel = new BookModel();
 
@@ -8,21 +9,22 @@ Page({
      * 页面的初始数据
      */
     data: {
-        books: [] ,
-        isSearching: false 
+        books: [],
+        isSearching: false,
+        more: ''
     },
 
-    onSearching(){
+    onSearching() {
         this.setData({
             isSearching: true
         })
-    } ,
+    },
 
     onCancel() {
         this.setData({
             isSearching: false
         })
-    } ,
+    },
 
     /**
      * 生命周期函数--监听页面加载
@@ -79,7 +81,9 @@ Page({
      * 页面上拉触底事件的处理函数
      */
     onReachBottom: function () {
-
+        this.setData({
+            more: random(16)
+        })
     },
 
     /**

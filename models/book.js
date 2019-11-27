@@ -1,5 +1,5 @@
-import { 
-    HTTP 
+import {
+    HTTP
 } from '../util/http-p.js';
 
 class BookModel extends HTTP {
@@ -9,19 +9,19 @@ class BookModel extends HTTP {
         })
     }
 
-    getDetail(bid){
+    getDetail(bid) {
         return this.request({
             url: `book/${bid}/detail`
         })
     }
 
-    getComments(bid){
+    getComments(bid) {
         return this.request({
             url: `book/${bid}/short_comment`
         })
     }
 
-    getLikeStatus(bid){
+    getLikeStatus(bid) {
         return this.request({
             url: `book/${bid}/favor`
         })
@@ -32,8 +32,18 @@ class BookModel extends HTTP {
             url: 'book/add/short_comment',
             method: 'Post',
             data: {
-                book_id: bid ,
+                book_id: bid,
                 content: content
+            }
+        })
+    }
+
+    search(start, q) {
+        return this.request({
+            url: '/book/search?summary=1',
+            data: {
+                q: q,
+                start: start
             }
         })
     }
@@ -41,4 +51,4 @@ class BookModel extends HTTP {
 
 export {
     BookModel
-} ;
+};

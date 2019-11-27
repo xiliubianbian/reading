@@ -16,4 +16,4 @@
     </view>
 </view>
 
-<r-search bind:cancel="onCancel" wx:if="{{isSearching}}" />
+<r-search more="{{more}}" bind:cancel="onCancel" wx:if="{{isSearching}}" />
