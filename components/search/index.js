@@ -6,17 +6,20 @@ import {
     BookModel
 } from '../../models/book.js';
 
+import { paginationBev } from '../behaviors/pagination.js';
+
 const keywordModel = new KeywordModel();
 const bookModel = new BookModel();
 
 Component({
+    behaviors: [paginationBev],
     /**
      * 组件的属性列表
      */
     properties: {
         more: {
             type: String,
-            observer: '_load_more'
+            observer: 'loadMore'
         }
     },
 
@@ -28,7 +31,6 @@ Component({
         query: '',
         historyWords: [],
         hotWords: [],
-        searchList: [],
         isloading: false,
     },
 
@@ -36,22 +38,23 @@ Component({
      * 组件的方法列表
      */
     methods: {
-        _load_more() {
+        loadMore() {
             if (!this.data.query) {
                 return;
             }
             if (this.data.isloading) {
                 return;
             }
-            const length = this.data.searchList.length;
-            this.data.isloading = true ;
-            bookModel.search(length, this.data.query).then(res => {
-                let tempArr = this.data.searchList.concat(res.books);
-                this.setData({
-                    searchList: tempArr
+            if (this.hasMore()) {
+                this.data.isloading = true;
+                bookModel.search(this.getCurrentStart(), this.data.query).then(res => {
+                    this.setMoreData(res.books);
+                    this.setData({
+                        total: res.total
+                    });
+                    this.data.isloading = false;
                 })
-                this.data.isloading = false;
-            })
+            }
         },
         onCancel(ev) {
             this.triggerEvent('cancel', {}, {});
@@ -60,6 +63,8 @@ Component({
             this.setData({
                 isSearching: true
             });
+            this.initData();
+
             const keywords = ev.detail.value || ev.detail.text;
             if (ev.detail.text) {
                 this.setData({
@@ -67,9 +72,10 @@ Component({
                 });
             }
             bookModel.search(0, keywords).then(res => {
+                this.setMoreData(res.books);
                 this.setData({
-                    searchList: res.books,
-                })
+                    total: res.total
+                });
                 keywordModel.addToHistory(keywords);
             })
         },
@@ -86,7 +92,9 @@ Component({
                     hotWords: res.hot
                 })
             })
-        }
+        },
+
+        // 私有方法
     },
 
     attached() {

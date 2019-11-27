@@ -35,7 +35,7 @@
     </view>
 
     <view class="book-container" wx:else>
-        <block wx:for="{{searchList}}" wx:key="{{item.id}}">
+        <block wx:for="{{dataArray}}" wx:key="{{item.id}}">
             <r-book book="{{item}}" />
         </block>
     </view>
