@@ -5,14 +5,40 @@ Page({
      * 页面的初始数据
      */
     data: {
+        hasAuth: false,
+        userInfo: {}
+    },
 
+    onGetUserInfo(ev) {
+        this.setData({
+            userInfo: ev.detail.userInfo,
+            hasAuth: true
+        })
+    },
+
+    userAuthorized() {
+        wx.getSetting({
+            success: data => {
+                if(data.authSetting['scope.userInfo']){
+                    wx.getUserInfo({
+                        success: data => {
+                            console.log(data)
+                            this.setData({
+                                hasAuth: true ,
+                                userInfo: data.userInfo
+                            })
+                        }
+                    })
+                }
+            }
+        })
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.userAuthorized();
     },
 
     /**
