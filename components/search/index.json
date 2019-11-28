@@ -2,6 +2,7 @@
     "component": true,
     "usingComponents": {
         "r-tag": "../../tag/index",
-        "r-book": "../../book/index"
+        "r-book": "../../book/index",
+        "r-loading": "../../loading/index"
     }
 }

@@ -36,7 +36,12 @@
 
     <view class="book-container" wx:else>
         <block wx:for="{{dataArray}}" wx:key="{{item.id}}">
-            <r-book book="{{item}}" />
+            <r-book book="{{item}}" likeShow="{{false}}"/>
         </block>
     </view>
+
+    <r-loading class="loading-center" wx:if="{{isloadingCenter}}"></r-loading>
+    <r-loading class="loading" wx:if="{{isloading}}"></r-loading>
+
+    <text class="empty-tips" wx:if="{{noneResult}}">暂无相关书籍</text>
 </view>

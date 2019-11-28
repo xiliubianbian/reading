@@ -32,6 +32,7 @@ Component({
         historyWords: [],
         hotWords: [],
         isloading: false,
+        isloadingCenter: false
     },
 
     /**
@@ -42,46 +43,50 @@ Component({
             if (!this.data.query) {
                 return;
             }
-            if (this.data.isloading) {
+            if (this.locked()) {
                 return;
             }
             if (this.hasMore()) {
-                this.data.isloading = true;
+                this.locked();
                 bookModel.search(this.getCurrentStart(), this.data.query).then(res => {
                     this.setMoreData(res.books);
                     this.setData({
                         total: res.total
                     });
-                    this.data.isloading = false;
+                    this.unLocked();
+                }).then( () => {
+                    this.unLocked();
                 })
             }
         },
         onCancel(ev) {
+            this.initData();
             this.triggerEvent('cancel', {}, {});
         },
         onSearch(ev) {
-            this.setData({
-                isSearching: true
-            });
-            this.initData();
-
+            this._showResult();
             const keywords = ev.detail.value || ev.detail.text;
             if (ev.detail.text) {
                 this.setData({
                     query: ev.detail.text
                 });
             }
+            this.setData({
+                isloadingCenter: true 
+            })
             bookModel.search(0, keywords).then(res => {
                 this.setMoreData(res.books);
+                this.setTotal(res.total);
                 this.setData({
-                    total: res.total
+                    isloadingCenter: false
                 });
                 keywordModel.addToHistory(keywords);
             })
         },
         onClear(ev) {
+            this.initData();
+            this._hideResult();
             this.setData({
-                isSearching: false,
                 query: ''
             })
         },
@@ -95,6 +100,17 @@ Component({
         },
 
         // 私有方法
+        _showResult(){
+            this.setData({
+                isSearching: true
+            })
+        },
+        _hideResult(){
+            this.setData({
+                isSearching: false
+            })
+        },
+        
     },
 
     attached() {

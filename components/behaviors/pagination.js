@@ -1,7 +1,9 @@
 let paginationBev = Behavior({
     data: {
         dataArray: [],
-        total: null
+        total: null,
+        noneResult: false ,
+        isloading: false
     },
 
     methods: {
@@ -19,6 +21,11 @@ let paginationBev = Behavior({
 
         setTotal(total) {
             this.data.total = total;
+            if (total === 0) {
+                this.setData({
+                    noneResult: true
+                })
+            }
         },
 
         // 判断服务器是否还有更多的数据返回
@@ -26,8 +33,24 @@ let paginationBev = Behavior({
             return this.data.dataArray.length < this.data.total;
         },
 
+        locked(){
+            this.setData({
+                isloading: true
+            })
+        },
+
+        unLocked(){
+            this.setData({
+                isloading: false
+            })
+        },
+
         initData() {
-            this.data.dataArray = [];
+            this.setData({
+                dataArray: [],
+                noneResult: false,
+                isloading: false 
+            })
             this.data.total = null;
         }
     }
