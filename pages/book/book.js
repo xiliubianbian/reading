@@ -29,17 +29,23 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    async onLoad(options) {
         // new Promise接收一个函数作为参数
         // 该函数有两个参数 resolve, reject
-        bookModel.getHotList()
-            .then(
-                res => {
-                    this.setData({
-                        books: res
-                    })
-                }
-            )
+        // bookModel.getHotList()
+        //     .then(
+        //         res => {
+        //             this.setData({
+        //                 books: res
+        //             })
+        //         }
+        //     )
+
+        // 将异步代码变成同步的方式
+        const books = await bookModel.getHotList();
+        this.setData({
+            books
+        })
     },
 
     /**

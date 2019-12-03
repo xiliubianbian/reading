@@ -1,7 +1,6 @@
-import { ClassicModel } from '../../models/classic';
 import { BookModel } from '../../models/book';
+import { promisic } from '../../util/tool';
 
-const classicModel = new ClassicModel();
 const bookModel = new BookModel();
 
 Page({
@@ -40,6 +39,65 @@ Page({
         })
     },
 
+    /**
+     * 将小程序对外提供的API封装成Promise的形式去调用
+     */
+    userAuthorized1() {
+        promisic(wx.getSetting)().then(data => {
+            if (data.authSetting['scope.userInfo']) {
+                return this.promisic(wx.getUserInfo)();
+            }
+            return false;
+        }).then(data => {
+            if (!data) {
+                return;
+            }
+            this.setData({
+                hasAuth: true,
+                userInfo: data.userInfo
+            })
+        })
+    },
+
+    // 将小程序提供的API写成async,await的形式去调用
+    async userAuthorized2() {
+        const data = await promisic(wx.getSetting)();
+        if (data.authSetting['scope.userInfo']) {
+            const authInfo = await this.promisic(wx.getUserInfo)();
+            if (authInfo) {
+                this.setData({
+                    hasAuth: true,
+                    userInfo: authInfo.userInfo
+                })
+            }
+        }
+    },
+
+    /**
+     * 将一个非promise的方法装换为promise的形式返回
+     * @param {*} func 接收一个函数作为参数，
+     */
+    promisic(func) {
+        // 执行func，然后将返回结果通过promise返回给调用者
+        // 怎么才能接收到func的调用结果？
+        // func()
+        return function (params = {}) { // 如果没有参数，这一层可以省略
+
+            return new Promise((resolve, reject) => {
+
+                const args = Object.assign(params, {
+                    success: res => {
+                        resolve(res);
+                    },
+                    fail: err => {
+                        reject(err);
+                    }
+                })
+                func(args);
+            })
+        }
+    },
+
     getMyLikeBookCount() {
         bookModel.getMyLikeBookCount().then(res => {
             this.setData({
@@ -48,8 +106,8 @@ Page({
         })
     },
 
-    getMyFavorBooks(){
-        bookModel.getMyFavorBooks().then( res => {
+    getMyFavorBooks() {
+        bookModel.getMyFavorBooks().then(res => {
             this.setData({
                 classics: res
             })
@@ -60,7 +118,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.userAuthorized();
+        this.userAuthorized2();
 
         this.getMyLikeBookCount();
 
