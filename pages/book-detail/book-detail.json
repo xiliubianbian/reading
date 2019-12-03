@@ -2,6 +2,7 @@
   "usingComponents": {
       "r-tag": "/components/tag/index",
       "r-like": "/components/like/index",
-      "r-mask": "/components/mask/index"
+      "r-mask": "/components/mask/index",
+      "r-button": "/components/image-button/index"
   }
 }

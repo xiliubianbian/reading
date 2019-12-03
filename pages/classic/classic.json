@@ -5,6 +5,7 @@
         "r-music": "/components/classic/music/index",
         "r-essay": "/components/classic/essay/index",
         "r-epsoide": "/components/epsoide/index",
-        "r-navi": "/components/navi/index"
+        "r-navi": "/components/navi/index",
+        "r-button": "/components/image-button/index"
 	}
 }

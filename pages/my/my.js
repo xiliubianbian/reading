@@ -1,4 +1,9 @@
-// pages/my/my.js
+import { ClassicModel } from '../../models/classic';
+import { BookModel } from '../../models/book';
+
+const classicModel = new ClassicModel();
+const bookModel = new BookModel();
+
 Page({
 
     /**
@@ -6,7 +11,9 @@ Page({
      */
     data: {
         hasAuth: false,
-        userInfo: {}
+        userInfo: {},
+        bookCount: 0,
+        classics: []
     },
 
     onGetUserInfo(ev) {
@@ -19,12 +26,11 @@ Page({
     userAuthorized() {
         wx.getSetting({
             success: data => {
-                if(data.authSetting['scope.userInfo']){
+                if (data.authSetting['scope.userInfo']) {
                     wx.getUserInfo({
                         success: data => {
-                            console.log(data)
                             this.setData({
-                                hasAuth: true ,
+                                hasAuth: true,
                                 userInfo: data.userInfo
                             })
                         }
@@ -34,11 +40,31 @@ Page({
         })
     },
 
+    getMyLikeBookCount() {
+        bookModel.getMyLikeBookCount().then(res => {
+            this.setData({
+                bookCount: res.count
+            })
+        })
+    },
+
+    getMyFavorBooks(){
+        bookModel.getMyFavorBooks().then( res => {
+            this.setData({
+                classics: res
+            })
+        })
+    },
+
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
         this.userAuthorized();
+
+        this.getMyLikeBookCount();
+
+        this.getMyFavorBooks();
     },
 
     /**

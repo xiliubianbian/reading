@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "r-button": "/components/image-button/index"
+    "r-button": "/components/image-button/index",
+    "r-preview": "/components/preview/index"
   }
 }

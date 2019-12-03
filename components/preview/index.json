@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "r-tag": "/components/tag/index",
+    "r-like": "/components/like/index"
+  }
+}

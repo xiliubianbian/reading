@@ -1,7 +1,12 @@
 <view class="container">
     <view class="header">
         <r-epsoide class="epsoide" index="{{classicData.index}}" />
-        <r-like class="like" bind:like="onLike" like="{{likeStatus}}" count="{{likeCount}}" />
+        <view class="like-container">
+            <r-like class="like" bind:like="onLike" like="{{likeStatus}}" count="{{likeCount}}" />
+            <r-button class="share-btn" open-type="share">
+                <image slot="img" src="../../images/icon/share.png" class="share" />
+            </r-button>
+        </view>
     </view>
 
     <!-- 电影 -->
